@@ -1,0 +1,63 @@
+#!/bin/bash
+menu=1
+
+PS3='Por Favor Ingrece una Opcion: '
+while [ $menu == 1 ]; do
+echo "";echo "";echo ""
+Opciones=("Salir" "Pingear IP" "Mapeo de Red" "Tabla de ruteo IP" "Puertos en Programa" "Procesos En Puertos" "Datos entre host")
+select opt in "${Opciones[@]}"
+do
+ case $opt in
+
+"Datos entre host")
+clear
+echo "Ingrece IP de Host"
+read host
+sudo traceroute $host
+;;
+
+"Procesos En Puertos")
+clear
+echo "Ingrece un Puerto"
+read puerto
+sudo netstat -anp | grep ":$puerto"
+;;
+
+"Puertos en Programa")
+clear
+echo "Ingrece un Servicio"
+read ser
+sudo netstat -ap | grep $ser
+;;
+
+"Tabla de ruteo IP")
+clear
+sudo netstat -r
+;;
+
+"Mapeo de Red")
+clear
+sudo nmap -sP 10.0.0.*
+;;
+
+"Pingear IP")
+clear
+echo "Ingrece IP"
+read ip
+ping -c 5 $ip
+;;
+
+"Salir")
+clear
+menu=0
+break
+;;
+
+*)clear;echo "$REPLY No es un valor Valido";;
+
+esac
+break
+done
+done
+
+

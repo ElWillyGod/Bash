@@ -1,0 +1,84 @@
+#!/bin/bash
+
+menu=1
+
+
+
+PS3='Por favor ingrece una Opcion: '
+
+while [ $menu == 1 ]; do
+
+echo "";echo "";echo "";
+
+Opciones=("Salir" "Parar Motor De BD" "Reactivar Motor De BD" "Reniciar Motor de BD" "Ver Estado")
+
+select opt in "${Opciones[@]}"
+
+do
+
+case $opt in
+
+"Parar Motor De BD")
+
+clear
+
+echo "Deteniendo Motor de BD..."
+
+sudo systemctl stop mariadb.service
+
+echo "Motor Detenido"
+
+;;
+
+"Reactivar Motor De BD")
+
+clear
+
+echo "Restablecioendo Motor de BD..."
+
+sudo systemctl start mariadb.service
+
+echo "Motor Restablecido"
+
+;;
+
+"Reiniciar Motor de BD")
+
+clear
+
+echo "Reiniciando Motor..."
+
+sudo systemctl restart mariadb.service
+
+;;
+
+"Ver Estado")
+
+clear
+
+echo "Estado del motor de BD"
+
+sudo systemctl status mariadb.service
+
+;;
+
+"Salir")
+
+echo "Finalizando sistema..."
+
+menu=0
+
+break
+
+;;
+
+*) echo "$REPLY No es un valor valido";;
+
+esac
+
+break
+
+done
+
+done
+

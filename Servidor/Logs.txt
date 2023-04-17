@@ -1,0 +1,78 @@
+#!/bin/bash
+
+menu=1
+
+
+
+PS3='Por Favor Ingrece una Opcion: '
+
+while [ $menu == 1 ]; do
+
+echo "";echo "";echo ""
+
+Opciones=("Salir" "Ver Seciones del sistema" "Ver Historial de Seciones" "Ultimas conexiones de Usuarios")
+
+select opt in "${Opciones[@]}"
+
+do
+
+ case $opt in
+
+
+
+"Ver Seciones del sistema")
+
+clear
+
+sudo w
+
+;;
+
+
+
+"Ver Historial de Seciones")
+
+clear
+
+sudo last
+
+;;
+
+
+
+"Ultimas conexiones de Usuarios")
+
+clear
+
+sudo lastlog
+
+;;
+
+
+
+"Salir")
+
+clear
+
+menu=0
+
+break
+
+;;
+
+
+
+*)clear;echo "$REPLY No es un valor valido";;
+
+esac
+
+break
+
+done
+
+done
+
+
+
+
+

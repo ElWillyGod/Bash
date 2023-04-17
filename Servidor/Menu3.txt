@@ -1,0 +1,70 @@
+#!/bin/bash
+
+
+
+menu=1
+
+PS3='Por favor Ingrece una Opcion: '
+
+while [ $menu == 1 ];do
+
+Opciones=("Salir" "Respaldo de BD" "Respaldo de Sistema")
+
+select opt in "${Opciones[@]}"
+
+do
+
+case $opt in
+
+
+
+"Respaldo de BD")
+
+clear
+
+echo "Redirigiendo..."
+
+./RespaldoBD.sh
+
+;;
+
+
+
+"Respaldo de Sistema")
+
+clear
+
+echo "Redirigiendo.."
+
+./RespaldoSistem.sh
+
+;;
+
+
+
+"Salir")
+
+clear
+
+echo "Finalizanod Sistema..."
+
+menu=0
+
+break
+
+;;
+
+
+
+*)clear; echo "$REPLY no es un valor valido"
+
+;;
+
+esac
+
+break
+
+done
+
+done
+

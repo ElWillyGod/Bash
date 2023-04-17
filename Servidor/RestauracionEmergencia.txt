@@ -1,0 +1,42 @@
+#!/bin/bash
+menu=1
+
+PS3='Por Favor Ingrece una Opcion: '
+while  [  $menu == 1 ];do
+echo "";echo "";echo "";
+Opciones=("Salir" "Restaurar Sistema" "Restaurar Estructura" "Restaurar Datos")
+select op in "${Opciones[@]}"
+do
+case $op in
+
+"Salir")
+clear
+echo "Redirigiendo..."
+menu=0
+break
+;;
+"Restaurar Sistema")
+clear
+sudo ssh -p 22 Admin@10.0.0.254 "rsync -av -e 'ssh -p 22' kali@10.0.0.2:RespaldoSistema/ /"
+;;
+
+"Restaurar Estructura")
+clear
+sudo ssh -p 22 Admin@10.0.0.254 "mysqladmin -u Admin --password=admin123 drop pollux"
+sudo ssh -p 22 Admin@10.0.0.254  "mysqladmin -u Admin --password=admin123 create pollux"
+sudo ssh -p 22 Admin@10.0.0.254 "mysql -u Admin --password=admin123 pollux" < RespaldoSistema/home/Admin/RespaldoEstructura/$(ls -t RespaldoSistema/home/Admin/RespaldoEstructura | head -1)
+;;
+
+"Restaurar Datos")
+clear
+sudo ssh -p 22 Admin@10.0.0.254 "mysql -u Admin --password=admin123 pollux" < RespaldoSistema/home/Admin/RespaldoDatos/$(ls -t RespaldoSistema/home/Admin/RespaldoDatos | head -1)
+;;
+
+*)
+clear
+echo "$REPLY No es un Valor Valido"
+;;
+esac
+break
+done
+done

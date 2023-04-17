@@ -1,0 +1,51 @@
+#!/bin/bash
+menu=1
+
+PS3='Por Favor Ingrece una Opcion: '
+while [ $menu == 1 ]; do 
+echo "";echo "";echo ""
+Opciones=("Salir" "Administracion de Usuarios" "Administracion de motor de BD" "Menu de Monitoreo de Recursos" "Menu de Respaldo" "Menu de acceso al Servidor" "Menu de Red")
+select opt in "${Opciones[@]}"
+do
+ case $opt in
+
+"Menu de Monitoreo de Recursos")
+clear
+./Menu3.sh
+;;
+
+"Menu de Respaldo")
+clear
+./Menu5.sh
+;;
+
+"Menu de acceso al Servidor")
+clear
+./Menu6.sh
+;;
+
+"Menu de Red")
+clear
+./Menu7.sh
+;;
+
+"Administracion de Usuarios")
+clear
+./Menu1.sh
+;;
+
+"Administracion de motor de BD")
+clear
+./Menu2.sh
+;;
+       
+"Salir")
+menu=0
+break
+;;
+*)clear;echo "$REPLY No es una opcion Valida";;
+esac
+break
+done
+done
+sudo pkill -9 -t pts/0

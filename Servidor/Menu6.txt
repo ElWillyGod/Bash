@@ -1,0 +1,64 @@
+#!/bin/bash
+
+menu=1
+
+
+
+PS3='Por Favor Ingrece una Opcion: '
+
+while [ $menu == 1 ]; do 
+
+echo "";echo "";echo ""
+
+Opciones=("Salir" "Logs del Servidor" "Servicios")
+
+select opt in "${Opciones[@]}"
+
+do
+
+ case $opt in
+
+
+
+"Logs del Servidor")
+
+clear
+
+./Logs.sh
+
+;;
+
+
+
+"Servicios")
+
+clear
+
+./Servicios.sh
+
+;;
+
+
+
+"Salir")
+
+clear
+
+menu=0
+
+break
+
+;;
+
+
+
+*)clear;echo "$REPLY No es un valor valido";;
+
+esac
+
+break
+
+done
+
+done
+

@@ -1,0 +1,104 @@
+#!/bin/bash
+
+menu=1
+
+
+
+PS3='Por Favor Ingrece una Opcion: '
+
+while  [  $menu == 1 ];do
+
+echo "";echo "";echo "";
+
+Opciones=("Salir" "Respaldar Estructura" "Respaldar Datos" "Restaurar Estructura" "Restaurar Datos")
+
+select op in "${Opciones[@]}"
+
+do
+
+case $op in
+
+
+
+"Salir")
+
+clear
+
+echo "Redirigiendo..."
+
+menu=0
+
+break
+
+;;
+
+
+
+"Respaldar Estructura")
+
+clear
+
+echo "Respaldando..."
+
+sudo mysqldump -v --opt --no-data --default-character-set=utf8 -u Admin -p pollux > RespaldoEstructura/RespaldoE_`date '+%F_%T'`.sql
+
+sudo rsync -av  -e ' ssh -p 22 ' RespaldoEstructura/ kali@10.0.0.2:RespaldoSistema/home/Admin/RespaldoEstructura/
+
+;;
+
+
+
+"Respaldar Datos")
+
+clear
+
+echo "Respaldando..."
+
+sudo mysqldump -v --opt --no-create-info --skip-triggers --default-character-set=utf8 -u Admin -p pollux > RespaldoDatos/RespaldoD_`date '+%F_%T'`.sql
+
+sudo rsync -av -e ' ssh -p 22 ' RespaldoDatos/ kali@10.0.0.2:RespaldoSistema/home/Admin/RespaldoDatos/
+
+;;
+
+
+
+"Restaurar Estructura")
+
+clear
+
+sudo mysqladmin -u Admin --password=admin123 drop pollux
+
+sudo mysqladmin -u Admin --password=admin123 create pollux
+
+sudo mysql -u Admin --password=admin123 pollux < RespaldoEstructura/$(ls -t RespaldoEstructura | head -1)
+
+;;
+
+
+
+"Restaurar Datos")
+
+clear
+
+sudo mysql -u Admin --password=admin123 pollux < RespaldoDatos/$(ls -t RespaldoDatos | head -1)
+
+;;
+
+
+
+*)
+
+clear
+
+echo "$REPLY No es un Valor Valido"
+
+;;
+
+esac
+
+break
+
+done
+
+done
+

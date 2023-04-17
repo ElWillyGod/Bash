@@ -1,0 +1,160 @@
+#!/bin/bash
+
+menu=1
+
+
+
+MenuOpciones (){
+
+echo "ingrece nombre del servico"
+
+read servicio
+
+if [ $servicio != "" ];then
+
+case $1 in
+
+"1")
+sudo systemctl status $servicio
+;;
+
+"2")
+
+sudo systemctl start $servicio
+
+;;
+
+
+
+"3")
+
+sudo systemctl stop $servicio
+
+;;
+
+
+
+"4")
+
+sudo systemctl restart $servicio
+
+;;
+
+
+
+esac
+
+
+
+else
+
+echo "El Servcio no puede ser null"
+
+fi
+
+}
+
+
+
+PS3='Por Favor Ingrece una Opcion: '
+
+ while [ $menu == 1 ]; do
+
+echo "";echo "";echo ""
+
+Opciones=("Salir" "Ver Estado de Servicio" "Ver Servicos activos" "Detener Servicio" "Iniciar Servicio" "Reiniciar Servicio" "Ver Todos los Servicios")
+
+select opt in "${Opciones[@]}"
+
+do
+
+case $opt in
+
+
+
+"Ver Estado de Servicio")
+
+clear
+
+MenuOpciones 1
+
+;;
+
+
+
+"Ver Todos los Servicios")
+
+clear
+
+sudo systemctl list-unit-files --type service
+
+;;
+
+
+
+"Iniciar Servicio")
+
+clear
+
+MenuOpciones 2
+
+;;
+
+
+
+"Detener Servicio")
+
+clear
+
+MenuOpciones 3
+
+;;
+
+
+
+"Ver Servicos activos")
+
+clear
+
+sudo systemctl | grep running
+
+;;
+
+
+
+"Reiniciar Servicio")
+
+clear
+
+MenuOpciones 4
+
+;;
+
+
+
+"Salir")
+
+clear 
+
+menu=0
+
+break 
+
+;;
+
+
+
+*)clear;echo "$REPLY No es un valor valido";;
+
+esac
+
+break
+
+done
+
+done
+
+
+
+
+

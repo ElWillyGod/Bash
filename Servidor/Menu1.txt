@@ -1,0 +1,210 @@
+#!/bin/bash
+
+
+
+menu=1
+
+
+
+PS3='Por favor Ingrece una opcion: '
+
+
+
+while [ $menu == 1 ]; do
+
+echo "";echo ""; echo ""
+
+opciones=("Salir" "Usuarios Activos" "Usuarios Bloqueados" "Bloquear Usuario" "Desbloquear Usuario" "Cambiar contraceña" "Cambiar privilegios")
+
+select opt in "${opciones[@]}"
+
+do
+
+case $opt in
+
+
+
+"Usuarios Activos")#1
+
+clear
+
+echo "Los Usuarios activos en el sistemas son: "
+
+sudo w
+
+;;
+
+
+
+"Usuarios Bloqueados")#2
+
+clear
+
+echo "Usuarios Bloqueados: ";echo "";
+
+sudo awk -F: '$3 >= 1000 {print $1}' /etc/passwd | awk '{ system("passwd -S " $0) }' | grep bloqueada
+
+;;
+
+
+
+"Bloquear Usuario")#3
+
+clear
+
+echo "Solicitud de bloqueo iniciada..."
+
+echo "Ingrese Usuario a Bloquear"; echo "Precione 0 Para Cancelar"
+
+read usuario
+
+case $usuario in
+
+
+
+"0")
+
+echo "Cancelando..."
+
+break
+
+;;
+
+"")echo "Usuario Null";;
+
+*)
+
+sudo usermod -L $usuario
+
+;;
+
+
+
+esac
+
+;;
+
+"Desbloquear Usuario")
+
+clear
+
+echo "Solicitud de Desbloqueo Iniciada..."
+
+echo "Ingrese Usuario"
+
+echo "Precione 0 para Cancelar"
+
+read usuario
+
+
+
+case $usuario in
+
+"0")
+
+echo "Cancelando..."
+
+break
+
+;;
+
+"")echo "Usuario Null";;
+
+*)
+
+sudo usermod -U $usuario
+
+;;
+
+esac
+
+;;
+
+
+
+"Cambiar contraceña")#4
+
+clear
+
+echo "$REPLY"
+
+echo "Ingrese Usuario"
+
+echo "Ingrese 0 para Cancelar"
+
+read usuario
+
+case $usuario in
+
+"0")echo "Cancelando...";break;;
+
+"")echo "Usuaio Null";;
+
+*)
+
+sudo passwd $usuario
+
+;;
+
+esac
+
+;;
+
+
+
+"Cambiar privilegios")#5
+
+clear
+
+echo "Ingrece Usuario";echo "Ingrese 0 para Cancelar"
+
+read usuario
+
+echo "Ingrece Grupo"
+
+read grupo
+
+case $usuario in
+
+"0")echo "Cancelando...";break;;
+
+"")echo "Usuairo Null";;
+
+*)
+
+sudo usermod -g $grupo $usuario
+
+;;
+
+esac
+
+
+
+;;
+
+
+
+"Salir")
+
+echo "Finalizando Sistema..."
+
+menu=0
+
+break
+
+;;
+
+
+
+*) echo "$REPLY Opcion invalida como dejaron a tu hermana";;
+
+
+
+esac
+
+break
+
+done
+
+done
+

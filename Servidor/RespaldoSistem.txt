@@ -1,0 +1,70 @@
+#!/bin/bash
+
+menu=1
+
+
+
+PS3='Por Favor Ingrece una Opcion: '
+
+while  [  $menu == 1 ];do
+
+echo "";echo "";echo "";
+
+Opciones=("Salir" "Respaldar Sistema" "Restaurar Sistemas")
+
+select op in "${Opciones[@]}"
+
+do
+
+case $op in
+
+
+
+"Salir")
+
+clear
+
+echo "Redirigiendo..."
+
+menu=0
+
+break
+
+;;
+
+
+
+"Respaldar Sistema")
+
+clear
+
+echo "Respaldando..."
+
+sudo rsync -av -e 'ssh -p 22' /home kali@10.0.0.2:RespaldoSistema/
+
+;;
+
+
+
+"Restaurar Sistemas")
+
+clear
+
+echo "Restaurando Sistema..."
+
+sudo rsync -av -e 'ssh -p 22' kali@10.0.0.2:RespaldoSistema/ /
+
+;;
+
+
+
+*)clear;echo "$REPLY No es un valor Valido";;
+
+esac
+
+break
+
+done
+
+done
+
